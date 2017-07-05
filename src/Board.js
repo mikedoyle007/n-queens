@@ -83,13 +83,13 @@
       var conflicts = _.reduce(row, function(accum, value) {
         return accum + value;
       }, 0);
-
       return conflicts > 1 ? true : false;
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      for (var i = 0; i < this.rows().length; i++) {
+      var grid = this.rows();
+      for (var i = 0; i < grid.length; i++) {
         if (this.hasRowConflictAt(i)) {
           return true;
         } 
@@ -104,12 +104,27 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      var column = [];
+      var grid = this.rows();
+      for (var i = 0; i < grid.length; i++) {
+        var temp = grid[i][colIndex];
+        column.push(temp);
+      }
+      var conflicts = _.reduce(column, function(accum, value) {
+        return accum + value;
+      }, 0);
+      return conflicts > 1 ? true : false;
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      var grid = this.rows();
+      for (var i = 0; i < grid.length; i++) {
+        if (this.hasColConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     },
 
 
@@ -119,12 +134,33 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var diagonal = [];
+      var grid = this.rows();
+      for (var i = 0; i < grid.length; i++) {
+        var temp = grid[i][majorDiagonalColumnIndexAtFirstRow + i];
+        console.log('temp', temp);
+        if (temp) {
+          diagonal.push(temp);
+        }
+      }
+      console.log(diagonal);
+      var conflicts = _.reduce(diagonal, function(accum, value) {
+        return accum + value;
+      }, 0);
+      return conflicts > 1 ? true : false;
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      var grid = this.rows();
+      var start = (grid.length - 1) * -1;
+      console.log('start', start);
+      for (var i = start; i < grid.length; i++) {
+        if (this.hasMajorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     },
 
 
